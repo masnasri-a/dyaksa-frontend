@@ -4,10 +4,31 @@ import Headers from '../common/header'
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { hiddenNumber } from '@/lib/utils';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const PricePage = () => {
     const [backgroundImageSrc, setBackgroundImageSrc] = useState<string>("");
     const [priceList, setPriceList] = useState<any[]>([]);
+    const [name, setName] = useState<string>("");
+    const [eventType, setEventType] = useState<string>("");
+    const [eventDate, setEventDate] = useState<string>("");
+    const [location, setLocation] = useState<string>("");
+
+    const router = useRouter();
+
+    const submitHandler = (paket:string) =>{
+        let prepare = "https://api.whatsapp.com/send/?phone=+6282138261223&text=Hallo%2C+terimakasih+sudah+menghubungi+kami.+Silahkan+isi+data+dulu+ya+kak+agar+kami+tau+kebutuhan+kakak😊%0ANama+:+"+name+"+%0AJenis+Acara+:+"+eventType+"%0ATanggal+:+"+eventDate+"+%0ALokasi%2Ftempat+:+"+location+"+%0ATipe+Paket+:+"+paket+"+%0A%0ATerimakasih🙏🏻&type=phone_number&app_absent=0"
+        router.push(prepare);
+        
+        
+    }
+
+
+    
 
     const fetchBackgroundImage = async () => {
         try {
@@ -97,8 +118,37 @@ const PricePage = () => {
                                         }
                                     </ul>
                                 </div>
-                                <button className="bg-white text-black px-4 py-2 mt-4 w-full rounded-lg"><a href={`https://wa.me/6282228893284?text=Halo%20Dyaksa%2C%20saya%20ingin%20memesan%20paket%20--${item.title}--%20untuk%20sesi%20foto.%20Bisa%20tolong%20informasikan%20detail%20jadwal%20yang%20tersedia%20dan%20apa%20saja%20yang%20termasuk%20dalam%20paket%20ini%3F%20Terima%20kasih`}>
-                                    Book Now</a></button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <button className="bg-white text-black px-4 py-2 mt-4 w-full rounded-lg">
+                                            Book Now
+                                        </button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Please fill the form below to book this package</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="flex flex-col">
+                                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                                <Label htmlFor="name" className='mt-4'>Name</Label>
+                                                <Input type="text" id="name" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                            </div>
+                                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                                <Label htmlFor="eventType" className='mt-4'>Jenis Acara</Label>
+                                                <Input type="text" id="eventType" placeholder="Jenis Acara" value={eventType} onChange={(e) => setEventType(e.target.value)} />
+                                            </div>
+                                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                                <Label htmlFor="date" className='mt-4'>Tanggal</Label>
+                                                <Input type="date" id="date" placeholder="Tanggal" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+                                            </div>
+                                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                                <Label htmlFor="location" className='mt-4'>Lokasi/tempat</Label>
+                                                <Input type="text" id="location" placeholder="Lokasi/tempat" value={location} onChange={(e) => setLocation(e.target.value)} />
+                                            </div>
+                                            <Button className="mt-4 w-full max-w-sm " onClick={()=> submitHandler(item.title)}>Submit</Button>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                             </Card>
                         ))
                     }

@@ -23,6 +23,7 @@ const Pricelist = () => {
                         <div className="absolute z-10 text-white flex flex-col justify-center items-center w-full h-full gap-5">
                             <span className='flex gap-2 font-semibold text-3xl'>Lets Contact </span>
                             <button className='border px-4 py-1 flex gap-2 items-center justify-center text-white border-neutral-200 rounded-2xl font-normal text-sm hover:blu hover:text-white hover:transition'><BadgeCheck /><span>Access Pricelist</span></button>
+
                         </div>
                     </div>
                 )
